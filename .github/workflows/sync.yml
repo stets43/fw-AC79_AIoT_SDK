@@ -1,6 +1,7 @@
 name: Mirror Gitee Repo
 on:
-  workflow_dispatch: # Allows manual trigger from the browser interface
+  push:             # <-- THIS FORCES IT TO RUN INSTANTLY WHEN YOU SAVE
+  workflow_dispatch: # Keeps the manual button for later
 
 jobs:
   sync:
@@ -13,14 +14,7 @@ jobs:
 
       - name: Fetch and Push from Gitee
         run: |
-          # 1. Link to the original Gitee repository
           git remote add gitee https://gitee.com
-          
-          # 2. Fetch the specific release branch and all project tags
           git fetch gitee release/AC79NN_SDK_V1.2.0 --tags
-          
-          # 3. Create a local tracking branch from Gitee's release branch
           git checkout -b release/AC79NN_SDK_V1.2.0 gitee/release/AC79NN_SDK_V1.2.0
-          
-          # 4. Force push the branch and tags over to your GitHub repository
           git push origin release/AC79NN_SDK_V1.2.0 --force --tags
